@@ -2,12 +2,12 @@
 
 namespace test_IRTech.Repository
 {
-    public interface IAnswerRepository
+    public interface IAnswersRepository
     {
-        Dictionary<string, int> GetStatsToTest(Guid testId);
+        Dictionary<string, double> GetStatsToTest(Guid testId);
         Dictionary<string, int> GetStatsToTests();
         int CountUserAnswer(Guid testId);
-        Guid Create(Answer answer);
+        void Create(IEnumerable<Answer> answer);
         void Delete();
     }
 }

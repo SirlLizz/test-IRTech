@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ITestsRepository, TestsRepository>();
 builder.Services.AddTransient<IQuestionsRepository, QuestionsRepository>();
-builder.Services.AddTransient<IAnswerRepository, AnswerRepository>();
+builder.Services.AddTransient<IAnswersRepository, AnswersRepository>();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
