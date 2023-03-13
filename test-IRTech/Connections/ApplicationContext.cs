@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using test_IRTech.Models;
 
 namespace test_IRTech.Connections
@@ -7,10 +8,23 @@ namespace test_IRTech.Connections
     {
         public DbSet<Question> Questions { get; set; } = null!;
         public DbSet<Test> Tests { get; set; } = null!;
+        public DbSet<Answer> Answers { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options){ }
+
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=HOME-PC;Initial Catalog=test-IRTech;Integrated Security=True;TrustServerCertificate=true;");
+            base.OnModelCreating(builder);
+
+            builder.Entity<Answer>()
+                   .HasOne(m => m.Test)
+                   .WithMany(t => t.Answers)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Answer>()
+                   .HasOne(m => m.Question)
+                   .WithMany(t => t.Answers)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

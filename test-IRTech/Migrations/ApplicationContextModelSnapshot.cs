@@ -22,6 +22,33 @@ namespace test_IRTech.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("test_IRTech.Models.Answer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Responce")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("TestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("TestId");
+
+                    b.ToTable("Answers");
+                });
+
             modelBuilder.Entity("test_IRTech.Models.Question", b =>
                 {
                     b.Property<Guid>("Id")
@@ -34,7 +61,7 @@ namespace test_IRTech.Migrations
                     b.Property<int>("ResponceScale")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("TestId")
+                    b.Property<Guid>("TestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -58,17 +85,45 @@ namespace test_IRTech.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("test_IRTech.Models.Question", b =>
+            modelBuilder.Entity("test_IRTech.Models.Answer", b =>
                 {
+                    b.HasOne("test_IRTech.Models.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("test_IRTech.Models.Test", "Test")
-                        .WithMany("Questions")
-                        .HasForeignKey("TestId");
+                        .WithMany("Answers")
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Question");
 
                     b.Navigation("Test");
                 });
 
+            modelBuilder.Entity("test_IRTech.Models.Question", b =>
+                {
+                    b.HasOne("test_IRTech.Models.Test", "Test")
+                        .WithMany("Questions")
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Test");
+                });
+
+            modelBuilder.Entity("test_IRTech.Models.Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
             modelBuilder.Entity("test_IRTech.Models.Test", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618

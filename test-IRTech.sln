@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-IRTech", "test-IRTech\test-IRTech.csproj", "{0460518B-5D3F-4E3D-8962-04E047A61721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test-IRTech", "test-IRTech\test-IRTech.csproj", "{0460518B-5D3F-4E3D-8962-04E047A61721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
