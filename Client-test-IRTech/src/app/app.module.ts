@@ -8,7 +8,10 @@ import { TestComponent } from './components/test/test.component';
 import { TestLabelComponent } from './components/test-label/test-label.component';
 import {DialogOverviewStatsTest} from './components/test/test.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import {MatButtonModule} from "@angular/material/button";
   imports: [
     BrowserModule,
     MatDialogModule,
-    MatButtonModule
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

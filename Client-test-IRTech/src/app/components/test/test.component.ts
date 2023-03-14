@@ -71,19 +71,24 @@ export class TestComponent{
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewStatsTest, {
-      data: {name: "123", animal: "23"},
-    });
+    this.httpService.GetTestStats(this.testData.id).then(stats =>{
+      let transferObject = []
+      for (let key in stats){
+        transferObject.push({
+          question: key,
+          value: stats[key]
+        })
+      }
+      const dialogRef = this.dialog.open(DialogOverviewStatsTest, {
+        data: transferObject,
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      });
+    })
+
   }
-}
-
-export interface DialogData {
-  animal: string;
-  name: string;
 }
 
 @Component({
@@ -93,7 +98,10 @@ export interface DialogData {
 export class DialogOverviewStatsTest {
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewStatsTest>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data:[{
+      question: "",
+      value: ""
+    }],
   ) {}
 
   onNoClick(): void {

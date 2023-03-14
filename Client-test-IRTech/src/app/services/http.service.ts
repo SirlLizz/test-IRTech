@@ -28,6 +28,17 @@ export class HttpService {
       });
   }
 
+  GetTestStats(testId:string){
+    return fetch(environment.SERVER_HOST+'api/Answers/stats-test/'+testId,{
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return data
+      });
+  }
+
   SendAnswer(answers: { userName: string; responce: number; test: { id: string; }; question: { id: string; test: {}; }; }[]){
     fetch(environment.SERVER_HOST+'api/Answers/',{
       method: "POST",
