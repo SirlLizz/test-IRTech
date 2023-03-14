@@ -1,0 +1,9 @@
+<h2 (click)="isTestActive = false">Back to home screen</h2>
+
+<div *ngIf="!isTestActive">
+    <ng-template #container></ng-template>
+</div>
+
+<div *ngIf="isTestActive && currentTestData">
+    <app-test [testData]="currentTestData"></app-test>
+</div>
