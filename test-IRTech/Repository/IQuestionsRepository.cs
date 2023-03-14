@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using test_IRTech.Models;
+﻿using test_IRTech.Models;
 
 namespace test_IRTech.Repository
 {

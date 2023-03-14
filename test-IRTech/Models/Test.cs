@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace test_IRTech.Models
+﻿namespace test_IRTech.Models
 {
     /// <summary>Class Model Test</summary>
     public class Test

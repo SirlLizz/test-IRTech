@@ -15,6 +15,8 @@ namespace test_IRTech.Repository
 
         public Guid Create(Question question)
         {
+            Test test = _context.Tests.Single(g => g.Id == question.Test.Id) ?? throw new NotFoundInDatabaseException();
+            question.Test = test;
             _context.Questions.Add(question);
             _context.SaveChanges();
             return question.Id;
