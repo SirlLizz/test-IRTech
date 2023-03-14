@@ -27,4 +27,15 @@ export class HttpService {
         return data
       });
   }
+
+  SendAnswer(answers: { userName: string; responce: number; test: { id: string; }; question: { id: string; test: {}; }; }[]){
+    fetch(environment.SERVER_HOST+'api/Answers/',{
+      method: "POST",
+      body: JSON.stringify(answers),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "*/*"
+      }
+    })
+  }
 }

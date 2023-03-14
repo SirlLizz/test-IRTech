@@ -1,5 +1,6 @@
-import {Component, ComponentRef, AfterViewInit, ViewChild, ViewContainerRef, EventEmitter} from '@angular/core';
-import {TestCardComponent} from "../test-card/test-card.component";
+import {
+  Component
+} from '@angular/core';
 import {HttpService} from "../../services/http.service";
 
 @Component({
@@ -7,48 +8,54 @@ import {HttpService} from "../../services/http.service";
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterViewInit{
+export class HomeComponent{
 
-  @ViewChild('container', { read: ViewContainerRef })
-  private viewRef: ViewContainerRef;
+  public allTests:[{
+    id:string,
+    name:string
+  }]
+
   constructor(private httpService: HttpService){
-
+    this.restoreTests()
   }
 
-  ngAfterViewInit(){
-    this.viewRef.clear();
-
-    this.httpService.GetTests().then(tests =>{
-      console.log(tests)
-      for (let i = 0; i < tests.length; i++) {
-        let testCardComponentRef = this.viewRef.createComponent(TestCardComponent);
-        (<TestCardComponent >(
-          testCardComponentRef.instance
-        )).Title = tests[i].name;
-
-        (<TestCardComponent >(
-          testCardComponentRef.instance
-        )).onStartTestButtonClick.subscribe(()=> {this.startTest(tests[i].name, tests[i].id)})
-      }
-    })
-
-
-  }
   public isTestActive: boolean = false;
   public currentTestData: {
-      title: string;
-      questions:[];
+    id:string,
+    title: string;
+    questions:[{
+      id:string,
+      description:string,
+      responceScale:number
+    }];
   } = {
-      title: '',
-      questions: []
+    id:'',
+    title: '',
+    questions: [{
+      id: "",
+      description: "",
+      responceScale: 10
+    }]
   };
 
+  public restoreTests(){
+    this.httpService.GetTests().then(tests =>{
+      console.log(tests)
+      this.allTests = tests as [{
+        id:string,
+        name:string
+      }]
+    })
+    console.log(this.allTests)
+  }
+
   public startTest(testName: string, testId: string) {
-      this.isTestActive = true;
+    this.isTestActive = true;
     this.httpService.GetQuestions(testId).then(questions =>{
       console.log(questions)
       this.currentTestData = {
-        title: 'Test ' + testName,
+        id: testId,
+        title: 'Тест: "' + testName+'"',
         questions: questions
       }
     })

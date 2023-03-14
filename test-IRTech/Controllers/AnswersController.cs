@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using test_IRTech.Exceptions;
 using test_IRTech.Models;
 using test_IRTech.Repository;
@@ -7,6 +8,7 @@ namespace test_IRTech.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("Answers")]
     public class AnswersController : ControllerBase
     {
         private readonly IAnswersRepository _repository;

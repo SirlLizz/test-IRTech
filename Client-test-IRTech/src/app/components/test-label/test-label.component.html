@@ -1,4 +1,8 @@
 <div class="test-label">
-  <p>{{Title}}</p>
-  <input type="range" min="0" max={{Scale}} step="1" value="0">
+  <p class="test-label-title">{{Title}}</p>
+  <div class="test-label-sidebar-container">
+    <input class="test-label-sidebar" #input type="range" min="0" max={{Scale}} step="1" value=0 (input)="OnInput(input.value)" >
+    <p class="test-label-text">{{TestAnswer}}</p>
+  </div>
+
 </div>

@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
-    options.AddPolicy("Question", policy =>
+    options.AddPolicy("Questions", policy =>
     {
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
@@ -49,6 +49,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors(builder => builder.AllowAnyOrigin());
+app.UseCors();
 
 app.Run();

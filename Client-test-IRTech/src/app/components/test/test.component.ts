@@ -1,33 +1,102 @@
-import {AfterViewInit, Component, Input, ViewChild, ViewContainerRef} from '@angular/core';
-import {TestCardComponent} from "../test-card/test-card.component";
-import {askQuestion} from "@angular/cli/src/utilities/prompt";
-import {TestLabelComponent} from "../test-label/test-label.component";
-
+import {
+  Component,
+  Input,
+  Inject
+} from '@angular/core';
+import {HttpService} from "../../services/http.service";
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css']
 })
-export class TestComponent implements AfterViewInit{
+export class TestComponent{
   @Input() testData: {
+    id:string;
     title: string;
-    questions:[];
+    questions:[{
+      id:string,
+      description:string,
+      responceScale:number
+    }];
   } = {
+    id:'',
     title: '',
-    questions: []
+    questions: [{
+      id:"",
+      description:"",
+      responceScale:10
+    }]
   };
-  @ViewChild('container') container: any
-  private viewRef: ViewContainerRef;
-  constructor() {
-    for (let i = 0; i < this.testData.questions.length; i++) {
-      console.log(this.testData.questions[i])
-      let testLabelComponentRef = this.viewRef.createComponent(TestLabelComponent);
-      (<TestLabelComponent >(
-        testLabelComponentRef.instance
-      )).Title = this.testData.questions[i]
+  userName:string = "";
+
+  answers:any = {};
+
+  constructor(private httpService:HttpService, private dialog: MatDialog) {
+  }
+  onSendButtonClick() {
+    if(this.userName!==""){
+
+      if(Object.keys(this.answers).length == this.testData.questions.length){
+        let transferObject=[];
+        for (let key in this.answers){
+          transferObject.push({
+            userName: this.userName,
+            responce: this.answers[key],
+            test: {
+              id: this.testData.id
+            },
+            question: {
+              id: key,
+              test: {}
+            }
+          })
+        }
+        console.log(transferObject)
+        this.httpService.SendAnswer(transferObject)
+      }else{
+        alert("Не на все вопросы дан ответ!")
+      }
+    }else{
+      alert("Введите имя пользователя!")
     }
   }
-  ngAfterViewInit(){
 
+  onChangedData($event: { id: string; answer: string }) {
+    this.answers[$event.id] = $event.answer
+  }
+
+  OnInput(value: string) {
+    this.userName = value;
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewStatsTest, {
+      data: {name: "123", animal: "23"},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+}
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'dialog-overview-example-dialog.html',
+})
+export class DialogOverviewStatsTest {
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewStatsTest>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

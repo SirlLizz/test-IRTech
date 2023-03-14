@@ -1,6 +1,17 @@
-<h2 (click)="isTestActive = false">Back to home screen</h2>
+<div class="nav" *ngIf="isTestActive">
+  <div class="nav_link">
+    <img src="https://phonoteka.org/uploads/posts/2022-09/1663765793_2-phonoteka-org-p-domik-bez-fona-instagram-3.png" width="35px" height="35px" alt="home-icon"  class="home-title" (click)="isTestActive = false; restoreTests()"/>
+  </div>
+</div>
 
-<div *ngIf="!isTestActive">
+<div class="container-test-card" *ngIf="!isTestActive">
+  <div *ngFor="let test of allTests">
+    <app-test-card
+      class="test-card"
+      (onStartTestButtonClick)="startTest($event, test.id)"
+      [Title]=test.name
+    ></app-test-card>
+  </div>
     <ng-template #container></ng-template>
 </div>
 
